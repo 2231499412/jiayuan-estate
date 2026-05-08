@@ -83,8 +83,9 @@ async function fetchAreas() {
   areas.value = res.data.data;
 }
 
-function onSearch(keyword: string) {
+function onSearch(keyword: string, type: string) {
   filters.value.keyword = keyword;
+  if (type) filters.value.type = type;
   page.value = 1;
   fetchList();
 }

@@ -136,8 +136,11 @@ onMounted(async () => {
   areas.value = areasRes.data.data;
 });
 
-function goSearch(keyword: string) {
-  router.push({ path: '/list', query: keyword ? { keyword } : {} });
+function goSearch(keyword: string, type: string) {
+  const query: any = {};
+  if (keyword) query.keyword = keyword;
+  if (type) query.type = type;
+  router.push({ path: '/list', query });
 }
 </script>
 
