@@ -107,3 +107,19 @@ adminRoutes.delete('/properties/:id', async (c) => {
   await c.env.DB.prepare('DELETE FROM properties WHERE id = ?').bind(id).run();
   return c.json({ message: '删除成功' });
 });
+
+// 上传图片到 R2
+adminRoutes.post('/upload', async (c) => {
+  const formData = await c.req.formData();
+  const file = formData.get('file') as File;
+  if (!file) return c.json({ error: '请选择文件' }, 400);
+
+  const ext = file.name.split('.').pop() || 'jpg';
+  const key = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+
+  await c.env.IMAGES.put(key, file.stream(), {
+    httpMetadata: { contentType: file.type },
+  });
+
+  return c.json({ key, url: `/api/images/${key}` });
+});
