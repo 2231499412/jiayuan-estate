@@ -66,28 +66,31 @@ function quickSearch(tag: string) {
 .search-bar {
   background: var(--bg-card);
   border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(45, 33, 24, 0.12);
+  box-shadow: 0 8px 32px rgba(30, 22, 16, 0.1), 0 2px 8px rgba(30, 22, 16, 0.04);
   overflow: hidden;
+  border: 1px solid var(--color-border-light);
 }
 
 .search-tabs {
   display: flex;
   padding: 0 8px;
-  background: linear-gradient(135deg, #3A2E22, #2D2118);
+  background: linear-gradient(165deg, #2A1F15, #1E1610);
 }
 .search-tabs button {
-  padding: 12px 24px;
+  padding: 13px 24px;
   background: transparent;
   border: none;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.5);
   font-size: 15px;
   font-weight: 500;
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
   cursor: pointer;
   position: relative;
-  transition: all 0.25s;
+  transition: all 0.25s var(--ease-out);
 }
 .search-tabs button:hover {
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.8);
 }
 .search-tabs button.active {
   color: #fff;
@@ -100,32 +103,32 @@ function quickSearch(tag: string) {
   transform: translateX(-50%);
   width: 24px;
   height: 3px;
-  background: var(--color-orange);
+  background: linear-gradient(90deg, var(--color-accent), var(--color-gold));
   border-radius: 3px 3px 0 0;
 }
 
 .search-input-wrap {
   display: flex;
   align-items: center;
-  padding: 12px 16px;
+  padding: 14px 16px;
   gap: 12px;
 }
 .search-input-wrap input {
   flex: 1;
   min-width: 0;
   padding: 14px 18px;
-  border: 2px solid var(--color-border);
+  border: 1.5px solid var(--color-border);
   border-radius: 12px;
   font-size: 16px;
   color: var(--color-text);
-  background: var(--bg-main);
+  background: var(--bg-warm);
   outline: none;
-  transition: all 0.3s;
+  transition: all 0.3s var(--ease-out);
 }
 .search-input-wrap input:focus {
-  border-color: var(--color-accent);
+  border-color: var(--color-primary);
   background: #fff;
-  box-shadow: 0 0 0 4px rgba(139, 111, 71, 0.08);
+  box-shadow: 0 0 0 4px var(--color-accent-glow);
 }
 .search-input-wrap input::placeholder {
   color: var(--color-text-light);
@@ -135,21 +138,23 @@ function quickSearch(tag: string) {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 14px 32px;
-  background: linear-gradient(135deg, #D4764E, #E8956E);
+  padding: 14px 36px;
+  background: linear-gradient(145deg, var(--color-accent), var(--color-accent-dark));
   color: #fff;
   border: none;
   border-radius: 12px;
   font-size: 16px;
   font-weight: 600;
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
   cursor: pointer;
-  transition: all 0.3s;
-  box-shadow: 0 4px 16px rgba(212, 118, 78, 0.3);
+  transition: all 0.3s var(--ease-out);
+  box-shadow: 0 4px 16px rgba(92, 66, 40, 0.2);
   white-space: nowrap;
 }
 .search-btn:hover {
-  background: linear-gradient(135deg, #C06840, #D4764E);
-  box-shadow: 0 6px 24px rgba(212, 118, 78, 0.4);
+  background: linear-gradient(145deg, var(--color-accent-dark), #4A3420);
+  box-shadow: 0 6px 24px rgba(92, 66, 40, 0.3);
   transform: translateY(-1px);
 }
 .search-btn svg {
@@ -167,21 +172,23 @@ function quickSearch(tag: string) {
 .tag-label {
   font-size: 13px;
   color: var(--color-text-light);
+  font-family: var(--font-display);
 }
 .hot-tag {
-  padding: 4px 12px;
+  padding: 5px 14px;
   background: var(--bg-cream);
   border: 1px solid var(--color-border-light);
-  border-radius: 20px;
+  border-radius: 100px;
   font-size: 13px;
   color: var(--color-text-secondary);
   cursor: pointer;
-  transition: all 0.25s;
+  transition: all 0.25s var(--ease-out);
 }
 .hot-tag:hover {
-  border-color: var(--color-accent);
+  border-color: var(--color-primary);
   color: var(--color-accent);
-  background: rgba(139, 111, 71, 0.05);
+  background: var(--color-accent-glow);
+  transform: translateY(-1px);
 }
 
 @media (max-width: 640px) {

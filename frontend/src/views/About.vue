@@ -3,9 +3,12 @@
     <!-- 顶部信息条 -->
     <div class="top-bar">
       <div class="container top-bar-inner">
-        <span>深圳龙岗房产信息网</span>
+        <span class="top-brand">深圳龙岗房产信息网</span>
         <div class="top-links">
-          <a href="tel:13603080608">📞 13603080608</a>
+          <a href="tel:13603080608">
+            <svg viewBox="0 0 16 16" fill="currentColor" width="13" height="13"><path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58z"/></svg>
+            吴女士 13603080608
+          </a>
           <router-link to="/admin/login">管理登录</router-link>
         </div>
       </div>
@@ -28,7 +31,8 @@
     </header>
 
     <section class="about-hero">
-      <div class="container">
+      <div class="hero-grain"></div>
+      <div class="container hero-content">
         <span class="eyebrow">关于嘉原</span>
         <h1>深耕龙岗，让买房租房更踏实</h1>
         <p>我们专注深圳龙岗区房产市场，熟悉每一个小区的特点和价值，用透明、专业、温暖的服务陪您完成重要选择。</p>
@@ -69,6 +73,7 @@
       <section class="contact-card">
         <div>
           <h2>联系我们</h2>
+          <p><strong>联系人：</strong>吴女士</p>
           <p><strong>电话：</strong><a href="tel:13603080608">13603080608</a></p>
           <p><strong>地址：</strong>深圳市龙岗区龙岗中心城</p>
           <p><strong>工作时间：</strong>周一至周日 9:00-18:00</p>
@@ -79,11 +84,12 @@
 
     <!-- Footer -->
     <footer class="footer">
+      <div class="gold-line"></div>
       <div class="container footer-inner">
         <div class="footer-brand">
           <strong>嘉原地产</strong>
           <p>专注深圳龙岗区房产服务</p>
-          <p>电话：13603080608</p>
+          <p>联系人：吴女士 · <a href="tel:13603080608">13603080608</a></p>
         </div>
         <div class="footer-links">
           <router-link to="/list?type=二手房">二手房</router-link>
@@ -91,7 +97,7 @@
           <router-link to="/list?type=租房">租房</router-link>
           <router-link to="/about">关于我们</router-link>
         </div>
-        <span class="footer-copy">© 2026 嘉原地产 版权所有</span>
+        <span class="footer-copy">&copy; 2026 嘉原地产 版权所有</span>
       </div>
     </footer>
   </div>
@@ -106,40 +112,51 @@ const areas = [
 
 <style scoped>
 .top-bar {
-  background: #2D2118;
-  color: rgba(255,255,255,0.6);
+  background: var(--color-text);
+  color: rgba(255,255,255,0.5);
   font-size: 13px;
-  padding: 6px 0;
+  padding: 7px 0;
 }
 .top-bar-inner {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+.top-brand {
+  font-family: var(--font-display);
+  letter-spacing: 0.08em;
+}
 .top-links {
   display: flex;
   gap: 20px;
+  align-items: center;
 }
 .top-links a {
-  color: rgba(255,255,255,0.6);
+  color: rgba(255,255,255,0.5);
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: color 0.25s;
 }
-.top-links a:hover { color: #fff; }
+.top-links a:hover { color: var(--color-primary); }
 
 .header {
-  background: #fff;
-  border-bottom: 2px solid var(--color-accent);
+  background: rgba(248, 244, 238, 0.92);
+  backdrop-filter: blur(24px) saturate(1.2);
+  -webkit-backdrop-filter: blur(24px) saturate(1.2);
+  border-bottom: 1px solid var(--color-border-light);
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 8px rgba(45,33,24,0.06);
+  box-shadow: 0 1px 3px rgba(30, 22, 16, 0.04);
 }
 .header-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 24px;
-  height: 64px;
+  height: 66px;
 }
 .logo {
   display: flex;
@@ -148,24 +165,25 @@ const areas = [
   text-decoration: none;
 }
 .logo-icon {
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #8B6F47, #C4A882);
+  background: linear-gradient(145deg, var(--color-accent), var(--color-gold));
   color: #fff;
   border-radius: 10px;
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: 18px;
   font-weight: 700;
+  box-shadow: 0 2px 10px rgba(122, 92, 58, 0.25);
 }
 .logo-text {
-  font-family: var(--font-serif);
-  font-size: 20px;
+  font-family: var(--font-display);
+  font-size: 21px;
   font-weight: 700;
   color: var(--color-text);
-  letter-spacing: 2px;
+  letter-spacing: 3px;
 }
 .main-nav {
   display: flex;
@@ -178,76 +196,82 @@ const areas = [
   font-size: 15px;
   font-weight: 500;
   text-decoration: none;
-  transition: all 0.25s;
+  transition: all 0.25s var(--ease-out);
 }
 .main-nav a:hover {
   color: var(--color-accent);
-  background: rgba(139,111,71,0.06);
+  background: var(--color-accent-glow);
 }
 .main-nav a.active,
 .main-nav a.router-link-exact-active {
-  color: #fff;
-  background: var(--color-accent);
+  color: var(--color-accent-dark);
+  font-weight: 700;
+  background: rgba(122, 92, 58, 0.06);
 }
 
+/* Hero */
 .about-hero {
   position: relative;
-  padding: 72px 0 68px;
+  padding: 76px 0 72px;
   overflow: hidden;
-  background: var(--bg-cream);
-  border-bottom: 1px solid var(--color-border-light);
+  background: linear-gradient(165deg, #2A1F15 0%, #1E1610 40%, #2A1F15 100%);
 }
-.about-hero::after {
-  content: '';
+.hero-grain {
   position: absolute;
-  top: -180px;
-  right: -80px;
-  width: 460px;
-  height: 460px;
-  background: radial-gradient(circle, rgba(196, 168, 130, 0.18), transparent 70%);
-  border-radius: 50%;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='300' height='300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  pointer-events: none;
 }
-.about-hero .container {
+.hero-content {
   position: relative;
   z-index: 1;
 }
 .eyebrow {
   display: inline-block;
-  margin-bottom: 14px;
-  padding: 5px 12px;
-  background: rgba(139, 111, 71, 0.08);
+  margin-bottom: 16px;
+  padding: 6px 18px;
+  background: rgba(184, 148, 62, 0.12);
+  border: 1px solid rgba(184, 148, 62, 0.2);
   border-radius: 100px;
-  color: var(--color-accent);
+  color: var(--color-gold);
+  font-family: var(--font-display);
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 700;
+  letter-spacing: 0.12em;
 }
 .about-hero h1 {
   max-width: 680px;
-  margin-bottom: 16px;
-  font-family: var(--font-serif);
+  margin-bottom: 18px;
+  font-family: var(--font-display);
   font-size: clamp(30px, 5vw, 48px);
   line-height: 1.28;
+  color: #fff;
+  letter-spacing: 0.04em;
 }
 .about-hero p {
   max-width: 640px;
-  color: var(--color-text-secondary);
+  color: rgba(196, 168, 130, 0.6);
   font-size: 17px;
   line-height: 1.8;
 }
+
+/* Content */
 .content {
-  padding-top: 40px;
+  padding-top: 44px;
   padding-bottom: 72px;
+  animation: fadeInUp 0.6s var(--ease-out) both;
 }
 .intro-card {
-  padding: 34px;
+  padding: 36px;
   margin-bottom: 24px;
 }
 .intro-card h2,
 .contact-card h2,
 .areas-card h2 {
-  margin-bottom: 14px;
-  font-family: var(--font-serif);
+  margin-bottom: 16px;
+  font-family: var(--font-display);
   font-size: 26px;
+  letter-spacing: 0.04em;
 }
 .intro-card p {
   color: var(--color-text-secondary);
@@ -261,30 +285,33 @@ const areas = [
   margin-bottom: 24px;
 }
 .info-card {
-  padding: 28px 24px;
+  padding: 30px 24px;
   transition: var(--transition);
 }
 .info-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
 }
 .icon {
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 18px;
-  background: linear-gradient(135deg, rgba(139, 111, 71, 0.1), rgba(196, 168, 130, 0.16));
+  margin-bottom: 20px;
+  background: linear-gradient(145deg, rgba(122, 92, 58, 0.08), rgba(184, 148, 62, 0.12));
+  border: 1px solid rgba(184, 148, 62, 0.15);
   border-radius: 14px;
   color: var(--color-accent);
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: 24px;
   font-weight: 800;
 }
 .info-card h3 {
   margin-bottom: 8px;
   font-size: 18px;
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
 }
 .info-card p {
   color: var(--color-text-secondary);
@@ -292,8 +319,9 @@ const areas = [
   line-height: 1.7;
 }
 
+/* Areas */
 .areas-card {
-  padding: 34px;
+  padding: 36px;
   margin-bottom: 24px;
 }
 .area-tags {
@@ -302,33 +330,53 @@ const areas = [
   gap: 10px;
 }
 .area-tags span {
-  padding: 8px 18px;
+  padding: 8px 20px;
   background: var(--bg-cream);
   border: 1px solid var(--color-border-light);
   border-radius: 10px;
   color: var(--color-text-secondary);
   font-size: 14px;
   font-weight: 500;
-  transition: all 0.25s;
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
+  transition: all 0.25s var(--ease-out);
 }
 .area-tags span:hover {
-  border-color: var(--color-accent);
+  border-color: var(--color-primary);
   color: var(--color-accent);
+  transform: translateY(-1px);
 }
 
+/* Contact */
 .contact-card {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 28px;
-  padding: 36px;
-  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-dark));
+  padding: 38px;
+  background: linear-gradient(145deg, var(--color-accent), var(--color-accent-dark));
   border-radius: var(--radius-xl);
   color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+.contact-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(184, 148, 62, 0.15), transparent 60%);
+  border-radius: 50%;
+}
+.contact-card h2 {
+  position: relative;
 }
 .contact-card p {
   margin-top: 6px;
   opacity: 0.86;
+  position: relative;
 }
 .contact-card a {
   color: #fff;
@@ -338,13 +386,15 @@ const areas = [
   min-height: 48px;
   flex-shrink: 0;
   align-items: center;
-  padding: 0 30px;
+  padding: 0 32px;
   background: #fff;
   border-radius: var(--radius);
   color: var(--color-accent-dark);
   font-weight: 800;
+  font-family: var(--font-display);
   text-decoration: none;
   transition: var(--transition);
+  position: relative;
 }
 .contact-btn:hover {
   transform: translateY(-2px);
@@ -353,50 +403,56 @@ const areas = [
 
 /* Footer */
 .footer {
-  padding: 40px 0 28px;
-  background: #2D2118;
-  color: rgba(255,255,255,0.5);
+  padding: 0;
+  background: var(--color-text);
+  color: rgba(255,255,255,0.45);
+}
+.footer .gold-line {
+  height: 2px;
+  background: linear-gradient(90deg, transparent 5%, var(--color-gold), transparent 95%);
+  opacity: 0.25;
 }
 .footer-inner {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 24px;
+  padding: 40px 0 28px;
 }
 .footer-brand strong {
   display: block;
   color: var(--color-primary);
-  font-family: var(--font-serif);
-  font-size: 18px;
-  margin-bottom: 8px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  margin-bottom: 10px;
+  letter-spacing: 0.08em;
 }
 .footer-brand p {
   font-size: 13px;
-  margin-bottom: 4px;
+  margin-bottom: 5px;
+}
+.footer-brand a {
+  color: var(--color-primary-light);
 }
 .footer-links {
   display: flex;
   gap: 24px;
 }
 .footer-links a {
-  color: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.45);
   font-size: 14px;
   text-decoration: none;
+  transition: color 0.2s;
 }
-.footer-links a:hover {
-  color: #fff;
-}
+.footer-links a:hover { color: var(--color-primary); }
 .footer-copy {
   font-size: 12px;
-  color: rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.25);
 }
 
 @media (max-width: 768px) {
   .header-inner {
     padding: 0 16px;
-  }
-  .main-nav {
-    gap: 0;
   }
   .main-nav a {
     padding: 8px 10px;
@@ -404,9 +460,6 @@ const areas = [
   }
   .about-hero {
     padding: 52px 0;
-  }
-  .about-hero p {
-    font-size: 15px;
   }
   .content {
     padding-top: 28px;

@@ -46,7 +46,7 @@ function toggle(field: 'area' | 'priceRange' | 'rooms', value: string) {
 
 <style scoped>
 .filter-panel {
-  padding: 20px;
+  padding: 22px;
   background: var(--bg-card);
   border: 1px solid var(--color-border-light);
   border-radius: 14px;
@@ -61,8 +61,10 @@ function toggle(field: 'area' | 'priceRange' | 'rooms', value: string) {
   display: block;
   margin-bottom: 10px;
   color: var(--color-text);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
+  font-family: var(--font-display);
+  letter-spacing: 0.06em;
 }
 .options {
   display: flex;
@@ -74,19 +76,21 @@ function toggle(field: 'area' | 'priceRange' | 'rooms', value: string) {
   padding: 6px 14px;
   border: 1px solid var(--color-border);
   border-radius: 8px;
-  background: var(--bg-main);
+  background: var(--bg-warm);
   color: var(--color-text-secondary);
   font-size: 13px;
   cursor: pointer;
-  transition: all 0.25s;
+  transition: all 0.25s var(--ease-out);
 }
 .options button:hover {
   border-color: var(--color-primary);
   color: var(--color-accent);
+  background: var(--color-accent-glow);
 }
 .options button.active {
-  background: var(--color-accent);
+  background: linear-gradient(145deg, var(--color-accent), var(--color-accent-dark));
   color: #fff;
   border-color: var(--color-accent);
+  box-shadow: 0 2px 8px rgba(92, 66, 40, 0.2);
 }
 </style>

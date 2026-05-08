@@ -63,7 +63,8 @@ const statusClass = computed(() => ({
   border: 1px solid var(--color-border-light);
   border-radius: 14px;
   box-shadow: var(--shadow-sm);
-  transition: all 0.3s;
+  transition: all 0.35s var(--ease-out);
+  animation: fadeInUp 0.5s var(--ease-out) both;
 }
 .property-card:hover {
   transform: translateY(-3px);
@@ -83,10 +84,10 @@ const statusClass = computed(() => ({
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  transition: transform 0.6s var(--ease-out);
 }
 .property-card:hover .card-image img {
-  transform: scale(1.05);
+  transform: scale(1.06);
 }
 .placeholder {
   display: flex;
@@ -98,7 +99,7 @@ const statusClass = computed(() => ({
 .placeholder svg {
   width: 40px;
   height: 40px;
-  opacity: 0.35;
+  opacity: 0.3;
 }
 
 .badge {
@@ -110,11 +111,13 @@ const statusClass = computed(() => ({
   color: #fff;
   font-size: 12px;
   font-weight: 600;
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
   backdrop-filter: blur(8px);
 }
-.badge.new { background: rgba(90, 140, 106, 0.9); }
-.badge.sale { background: rgba(139, 111, 71, 0.9); }
-.badge.rent { background: rgba(90, 127, 168, 0.9); }
+.badge.new { background: rgba(74, 122, 90, 0.9); }
+.badge.sale { background: rgba(122, 92, 58, 0.9); }
+.badge.rent { background: rgba(74, 111, 140, 0.9); }
 
 .hot-mark {
   position: absolute;
@@ -125,11 +128,12 @@ const statusClass = computed(() => ({
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(212, 118, 78, 0.92);
+  background: linear-gradient(145deg, var(--color-orange), #B85030);
   border-radius: 6px;
   color: #fff;
   font-size: 12px;
   font-weight: 700;
+  font-family: var(--font-display);
 }
 
 .card-body {
@@ -137,16 +141,18 @@ const statusClass = computed(() => ({
   min-width: 0;
   display: flex;
   flex-direction: column;
-  padding: 16px 20px;
+  padding: 18px 22px;
 }
 
 .title {
   display: -webkit-box;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   overflow: hidden;
   color: var(--color-text);
   font-size: 17px;
   font-weight: 700;
+  font-family: var(--font-display);
+  letter-spacing: 0.02em;
   line-height: 1.4;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
@@ -161,6 +167,7 @@ const statusClass = computed(() => ({
 .meta span {
   padding: 3px 10px;
   background: var(--bg-cream);
+  border: 1px solid var(--color-border-light);
   border-radius: 6px;
   color: var(--color-text-secondary);
   font-size: 13px;
@@ -181,7 +188,7 @@ const statusClass = computed(() => ({
   width: 13px;
   height: 13px;
   flex-shrink: 0;
-  opacity: 0.6;
+  opacity: 0.5;
 }
 
 .card-bottom {
@@ -189,18 +196,16 @@ const statusClass = computed(() => ({
   align-items: flex-end;
   justify-content: space-between;
   gap: 12px;
-  padding-top: 12px;
+  padding-top: 14px;
   border-top: 1px solid var(--color-border-light);
-  margin-top: 12px;
+  margin-top: 14px;
 }
 .price {
   color: var(--color-orange);
   font-size: 22px;
   font-weight: 800;
+  font-family: var(--font-display);
   line-height: 1;
-}
-.price::before {
-  content: '';
 }
 
 .status-tag {
@@ -208,18 +213,20 @@ const statusClass = computed(() => ({
   border-radius: 6px;
   font-size: 12px;
   font-weight: 600;
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
 }
 .status-tag.selling {
-  background: rgba(90, 140, 106, 0.1);
-  color: #5A8C6A;
+  background: rgba(74, 122, 90, 0.1);
+  color: var(--color-green);
 }
 .status-tag.sold {
   background: rgba(220, 38, 38, 0.08);
-  color: #DC2626;
+  color: #C03030;
 }
 .status-tag.rented {
-  background: rgba(90, 127, 168, 0.1);
-  color: #5A7FA8;
+  background: rgba(74, 111, 140, 0.1);
+  color: var(--color-blue);
 }
 
 @media (max-width: 768px) {
