@@ -7,6 +7,16 @@ import { verifyPassword, hashPassword } from '../utils/crypto';
 export const adminRoutes = new Hono<{ Bindings: Env }>();
 
 adminRoutes.post('/login', async (c) => {
+  const ip = c.req.header('CF-Connecting-IP') || c.req.header('X-Forwarded-For') || 'unknown';
+
+  // 检查15分钟内失败次数
+  const attempts = await c.env.DB.prepare(
+    "SELECT COUNT(*) as cnt FROM login_attempts WHERE ip = ? AND attempted_at > datetime('now', 'localtime', '-15 minutes')"
+  ).bind(ip).first();
+  if ((attempts as any)?.cnt >= 5) {
+    return c.json({ error: '登录失败次数过多，请15分钟后再试' }, 429);
+  }
+
   const { username, password } = await c.req.json();
   if (!username || !password) {
     return c.json({ error: '请输入用户名和密码' }, 400);
@@ -15,12 +25,18 @@ adminRoutes.post('/login', async (c) => {
     'SELECT * FROM admins WHERE username = ?'
   ).bind(username).first();
   if (!admin) {
+    await c.env.DB.prepare('INSERT INTO login_attempts (ip) VALUES (?)').bind(ip).run();
     return c.json({ error: '用户名或密码错误' }, 401);
   }
   const valid = await verifyPassword(password, (admin as any).password);
   if (!valid) {
+    await c.env.DB.prepare('INSERT INTO login_attempts (ip) VALUES (?)').bind(ip).run();
     return c.json({ error: '用户名或密码错误' }, 401);
   }
+
+  // 登录成功，清理该IP的失败记录
+  await c.env.DB.prepare('DELETE FROM login_attempts WHERE ip = ?').bind(ip).run();
+
   const token = await sign(
     { id: (admin as any).id, exp: Math.floor(Date.now() / 1000) + 86400 },
     c.env.JWT_SECRET

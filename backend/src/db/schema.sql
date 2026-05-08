@@ -21,3 +21,11 @@ CREATE TABLE IF NOT EXISTS admins (
   username TEXT NOT NULL UNIQUE,
   password TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS login_attempts (
+  id           INTEGER PRIMARY KEY AUTOINCREMENT,
+  ip           TEXT NOT NULL,
+  attempted_at TEXT DEFAULT (datetime('now', 'localtime'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_login_attempts_ip ON login_attempts(ip, attempted_at);
