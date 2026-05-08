@@ -2,7 +2,7 @@ import { Hono } from 'hono';
 import { sign } from 'hono/jwt';
 import { Env } from '../types';
 import { authMiddleware } from '../middleware/auth';
-import { verifyPassword } from '../utils/crypto';
+import { verifyPassword, hashPassword } from '../utils/crypto';
 
 export const adminRoutes = new Hono<{ Bindings: Env }>();
 
@@ -33,6 +33,29 @@ adminRoutes.use('/*', authMiddleware);
 
 adminRoutes.get('/me', async (c) => {
   return c.json({ message: '已登录' });
+});
+
+// 修改密码
+adminRoutes.put('/password', async (c) => {
+  const { oldPassword, newPassword } = await c.req.json();
+  if (!oldPassword || !newPassword) {
+    return c.json({ error: '请输入旧密码和新密码' }, 400);
+  }
+  if (newPassword.length < 6) {
+    return c.json({ error: '新密码至少6位' }, 400);
+  }
+  const adminId = c.get('adminId' as any);
+  const admin = await c.env.DB.prepare('SELECT * FROM admins WHERE id = ?').bind(adminId).first();
+  if (!admin) {
+    return c.json({ error: '管理员不存在' }, 404);
+  }
+  const valid = await verifyPassword(oldPassword, (admin as any).password);
+  if (!valid) {
+    return c.json({ error: '旧密码错误' }, 401);
+  }
+  const hashed = await hashPassword(newPassword);
+  await c.env.DB.prepare('UPDATE admins SET password = ? WHERE id = ?').bind(hashed, adminId).run();
+  return c.json({ message: '密码修改成功' });
 });
 
 // 统计数据

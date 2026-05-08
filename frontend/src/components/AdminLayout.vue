@@ -5,6 +5,7 @@
       <nav>
         <router-link to="/admin">仪表盘</router-link>
         <router-link to="/admin/properties">房源管理</router-link>
+        <router-link to="/admin/password">修改密码</router-link>
         <router-link to="/">返回前台</router-link>
       </nav>
       <button class="logout" @click="logout">退出登录</button>
