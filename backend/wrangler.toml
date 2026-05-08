@@ -5,11 +5,11 @@ compatibility_date = "2024-06-01"
 [[d1_databases]]
 binding = "DB"
 database_name = "jiayuan-db"
-database_id = "placeholder-replace-after-creating"
+database_id = "8139c68b-71d3-42c2-aacf-947a7f220ed3"
 
 [[r2_buckets]]
 binding = "IMAGES"
 bucket_name = "jiayuan-images"
 
 [vars]
-JWT_SECRET = "change-this-to-a-random-string"
+JWT_SECRET = "jiayuan-estate-jwt-secret-2026"

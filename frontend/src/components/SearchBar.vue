@@ -4,10 +4,10 @@
     <input
       v-model="keyword"
       type="text"
-      placeholder="搜索小区名、地址..."
+      placeholder="搜索小区名、地址、关键词..."
       @keyup.enter="onSearch"
     />
-    <button class="btn btn-primary" @click="onSearch">搜索</button>
+    <button class="btn btn-primary" @click="onSearch">搜索房源</button>
   </div>
 </template>
 
@@ -25,21 +25,47 @@ function onSearch() {
 <style scoped>
 .search-bar {
   display: flex;
-  gap: 8px;
-  padding: 12px;
-  background: var(--color-card);
+  align-items: center;
+  gap: 6px;
+  padding: 6px;
+  background: var(--bg-card);
+  border: 1px solid var(--color-border-light);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-lg);
+  transition: var(--transition);
+}
+.search-bar:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-hover);
 }
 .search-bar input {
   flex: 1;
-  padding: 10px 14px;
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  font-size: 15px;
+  min-width: 0;
+  padding: 14px 18px;
+  border: none;
   outline: none;
+  background: transparent;
+  color: var(--color-text);
+  font-size: 15px;
 }
-.search-bar input:focus {
-  border-color: var(--color-primary);
+.search-bar input::placeholder {
+  color: var(--color-text-light);
+}
+.search-bar .btn {
+  flex-shrink: 0;
+  padding: 12px 28px;
+}
+@media (max-width: 640px) {
+  .search-bar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 8px;
+  }
+  .search-bar input {
+    padding: 12px 14px;
+  }
+  .search-bar .btn {
+    width: 100%;
+  }
 }
 </style>

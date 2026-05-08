@@ -12,25 +12,41 @@
       </div>
     </header>
 
+    <section class="list-hero">
+      <div class="container">
+        <span class="eyebrow">房源中心</span>
+        <h1>把合适的房子筛出来</h1>
+        <p>按类型、区域和关键词快速查找，少花时间翻列表，多花时间看好房。</p>
+      </div>
+    </section>
+
     <div class="container content">
-      <div class="sidebar">
+      <aside class="sidebar">
         <SearchBar @search="onSearch" />
         <FilterPanel :areas="areas" @change="onFilter" />
-      </div>
-      <div class="main">
+      </aside>
+      <main class="main">
         <div class="result-info">
-          共 <strong>{{ total }}</strong> 套房源
+          <div>
+            <span>共找到</span>
+            <strong>{{ total }}</strong>
+            <span>套房源</span>
+          </div>
+          <span class="hint">为你按最新发布排序</span>
         </div>
-        <div class="grid">
+        <div v-if="list.length" class="grid">
           <PropertyCard v-for="p in list" :key="p.id" :property="p" />
         </div>
-        <div v-if="!list.length" class="empty">暂无符合条件的房源</div>
+        <div v-else class="empty">
+          <strong>暂无符合条件的房源</strong>
+          <p>可以换个关键词，或者清空筛选条件再试试。</p>
+        </div>
         <div class="pagination" v-if="total > pageSize">
           <button class="btn btn-outline" :disabled="page <= 1" @click="changePage(page - 1)">上一页</button>
           <span>{{ page }} / {{ Math.ceil(total / pageSize) }}</span>
           <button class="btn btn-outline" :disabled="page >= Math.ceil(total / pageSize)" @click="changePage(page + 1)">下一页</button>
         </div>
-      </div>
+      </main>
     </div>
   </div>
 </template>
@@ -95,42 +111,58 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.header {
-  background: var(--color-card);
-  box-shadow: var(--shadow);
-  position: sticky;
-  top: 0;
-  z-index: 100;
+.list-hero {
+  position: relative;
+  padding: 56px 0 48px;
+  overflow: hidden;
+  background: var(--bg-cream);
+  border-bottom: 1px solid var(--color-border-light);
 }
-.header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 56px;
+.list-hero::after {
+  content: '';
+  position: absolute;
+  top: -160px;
+  right: -100px;
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, rgba(196, 168, 130, 0.18) 0%, transparent 70%);
+  border-radius: 50%;
 }
-.logo {
-  font-size: 20px;
+.list-hero .container {
+  position: relative;
+  z-index: 1;
+}
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 12px;
+  padding: 5px 12px;
+  background: rgba(139, 111, 71, 0.08);
+  border-radius: 100px;
   color: var(--color-accent);
+  font-size: 13px;
   font-weight: 700;
 }
-nav {
-  display: flex;
-  gap: 20px;
+.list-hero h1 {
+  margin-bottom: 10px;
+  font-family: var(--font-serif);
+  font-size: clamp(28px, 4vw, 42px);
 }
-nav a {
-  font-size: 15px;
-  color: var(--color-text);
-}
-nav a.router-link-exact-active {
-  color: var(--color-accent);
+.list-hero p {
+  max-width: 520px;
+  color: var(--color-text-secondary);
+  font-size: 16px;
 }
 .content {
   display: flex;
-  gap: 20px;
-  padding: 20px 16px;
+  gap: 24px;
+  padding-top: 28px;
+  padding-bottom: 64px;
 }
 .sidebar {
-  width: 280px;
+  position: sticky;
+  top: 84px;
+  width: 300px;
+  height: fit-content;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -141,34 +173,82 @@ nav a.router-link-exact-active {
   min-width: 0;
 }
 .result-info {
-  margin-bottom: 12px;
-  font-size: 14px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+  padding: 16px 18px;
+  background: var(--bg-card);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius);
   color: var(--color-text-secondary);
+  font-size: 14px;
+}
+.result-info strong {
+  margin: 0 6px;
+  color: var(--color-accent);
+  font-family: var(--font-serif);
+  font-size: 26px;
+  line-height: 1;
+}
+.hint {
+  color: var(--color-text-light);
+  font-size: 13px;
 }
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
 }
 .empty {
+  padding: 56px 24px;
+  background: var(--bg-card);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius);
   text-align: center;
-  padding: 48px;
-  color: var(--color-text-secondary);
+}
+.empty strong {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--color-text);
+  font-size: 18px;
+}
+.empty p {
+  color: var(--color-text-light);
+  font-size: 14px;
 }
 .pagination {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 16px;
-  margin-top: 24px;
+  margin-top: 28px;
 }
-
-@media (max-width: 768px) {
+.pagination span {
+  color: var(--color-text-secondary);
+  font-weight: 700;
+}
+@media (max-width: 900px) {
   .content {
     flex-direction: column;
   }
   .sidebar {
+    position: static;
     width: 100%;
+  }
+}
+@media (max-width: 640px) {
+  .content {
+    padding-top: 20px;
+    padding-bottom: 40px;
+  }
+  .result-info {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .grid {
+    grid-template-columns: 1fr;
   }
 }
 </style>

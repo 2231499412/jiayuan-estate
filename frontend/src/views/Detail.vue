@@ -13,6 +13,7 @@
     </header>
 
     <div class="container content" v-if="property">
+      <router-link to="/list" class="back-link">← 返回房源列表</router-link>
       <ImageCarousel :images="imageUrls" />
 
       <div class="info-card card">
@@ -52,10 +53,12 @@
         <p>{{ property.desc }}</p>
       </div>
 
-      <div class="contact-card card">
-        <h3>咨询房源</h3>
-        <p>对这套房源感兴趣？联系我们了解更多详情。</p>
-        <p class="phone">电话：400-XXX-XXXX</p>
+      <div class="contact-card">
+        <div>
+          <h3>对这套房源感兴趣？</h3>
+          <p>联系我们了解看房时间、房源细节和交易流程。</p>
+        </div>
+        <router-link to="/about" class="contact-btn">立即咨询</router-link>
       </div>
     </div>
 
@@ -85,117 +88,148 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.header {
-  background: var(--color-card);
-  box-shadow: var(--shadow);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-.header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 56px;
-}
-.logo {
-  font-size: 20px;
-  color: var(--color-accent);
-  font-weight: 700;
-}
-nav {
-  display: flex;
-  gap: 20px;
-}
-nav a {
-  font-size: 15px;
-  color: var(--color-text);
-}
 .content {
-  padding: 20px 16px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
+  padding-top: 24px;
+  padding-bottom: 64px;
+}
+.back-link {
+  width: fit-content;
+  color: var(--color-accent);
+  font-size: 14px;
+  font-weight: 700;
 }
 .info-card {
-  padding: 20px;
+  padding: 28px;
 }
 .price-row {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 .price {
-  font-size: 24px;
-  font-weight: 700;
-  color: #E64A19;
+  color: var(--color-orange);
+  font-size: 32px;
+  font-weight: 900;
+  line-height: 1;
 }
 .status-tag {
-  padding: 2px 10px;
-  border-radius: 4px;
-  font-size: 13px;
+  padding: 4px 12px;
+  border-radius: 100px;
   color: #fff;
+  font-size: 13px;
+  font-weight: 700;
 }
-.status-tag.在售 { background: #4CAF50; }
-.status-tag.已售 { background: #9E9E9E; }
-.status-tag.已租 { background: #2196F3; }
+.status-tag.在售 { background: var(--color-green); }
+.status-tag.已售 { background: var(--color-text-light); }
+.status-tag.已租 { background: var(--color-blue); }
 .title {
-  font-size: 20px;
-  margin-bottom: 16px;
+  margin-bottom: 22px;
+  font-family: var(--font-serif);
+  font-size: clamp(24px, 4vw, 34px);
+  line-height: 1.35;
 }
 .meta-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 18px;
 }
 .meta-item {
-  display: flex;
-  flex-direction: column;
+  padding: 18px;
+  background: var(--bg-cream);
+  border-radius: var(--radius);
 }
-.meta-item .label {
+.meta-item .label,
+.address .label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--color-text-light);
   font-size: 13px;
-  color: var(--color-text-secondary);
 }
 .meta-item .value {
-  font-size: 15px;
-  font-weight: 500;
+  color: var(--color-text);
+  font-size: 17px;
+  font-weight: 800;
 }
 .address {
-  font-size: 14px;
-}
-.address .label {
+  padding-top: 18px;
+  border-top: 1px solid var(--color-border-light);
   color: var(--color-text-secondary);
-  margin-right: 8px;
+  font-size: 15px;
 }
-.desc-card, .contact-card {
-  padding: 20px;
+.desc-card {
+  padding: 28px;
 }
-.desc-card h3, .contact-card h3 {
-  font-size: 16px;
-  margin-bottom: 12px;
-  padding-left: 10px;
-  border-left: 3px solid var(--color-accent);
+.desc-card h3 {
+  margin-bottom: 14px;
+  font-family: var(--font-serif);
+  font-size: 22px;
 }
 .desc-card p {
-  font-size: 14px;
-  line-height: 1.8;
   color: var(--color-text-secondary);
+  font-size: 15px;
+  line-height: 1.9;
+}
+.contact-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 34px;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-dark));
+  border-radius: var(--radius-xl);
+  color: #fff;
+}
+.contact-card h3 {
+  margin-bottom: 8px;
+  font-family: var(--font-serif);
+  font-size: 24px;
 }
 .contact-card p {
-  font-size: 14px;
-  color: var(--color-text-secondary);
+  opacity: 0.82;
 }
-.phone {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--color-accent);
-  margin-top: 8px;
+.contact-btn {
+  display: inline-flex;
+  min-height: 46px;
+  flex-shrink: 0;
+  align-items: center;
+  padding: 0 28px;
+  background: #fff;
+  border-radius: var(--radius);
+  color: var(--color-accent-dark);
+  font-weight: 800;
+  transition: var(--transition);
+}
+.contact-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 .loading {
-  text-align: center;
-  padding: 48px;
+  padding: 80px 24px;
   color: var(--color-text-secondary);
+  text-align: center;
+}
+@media (max-width: 768px) {
+  .content {
+    padding-top: 18px;
+    padding-bottom: 40px;
+  }
+  .info-card,
+  .desc-card {
+    padding: 22px;
+  }
+  .meta-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .contact-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 28px 22px;
+  }
 }
 </style>
