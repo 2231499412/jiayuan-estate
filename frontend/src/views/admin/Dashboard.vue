@@ -30,13 +30,13 @@ import AdminLayout from '../../components/AdminLayout.vue';
 const stats = ref({ total: 0, selling: 0, sold: 0, rented: 0 });
 
 onMounted(async () => {
-  const res = await api.get('/admin/properties', { params: { pageSize: 1000 } });
-  const all = res.data.data;
+  const res = await api.get('/admin/stats');
+  const d = res.data.data;
   stats.value = {
-    total: all.length,
-    selling: all.filter((p: any) => p.status === '在售').length,
-    sold: all.filter((p: any) => p.status === '已售').length,
-    rented: all.filter((p: any) => p.status === '已租').length,
+    total: d.total || 0,
+    selling: d.selling || 0,
+    sold: d.sold || 0,
+    rented: d.rented || 0,
   };
 });
 </script>

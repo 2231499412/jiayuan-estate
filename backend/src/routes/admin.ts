@@ -35,6 +35,19 @@ adminRoutes.get('/me', async (c) => {
   return c.json({ message: '已登录' });
 });
 
+// 统计数据
+adminRoutes.get('/stats', async (c) => {
+  const row = await c.env.DB.prepare(
+    `SELECT
+      COUNT(*) as total,
+      SUM(CASE WHEN status = '在售' THEN 1 ELSE 0 END) as selling,
+      SUM(CASE WHEN status = '已售' THEN 1 ELSE 0 END) as sold,
+      SUM(CASE WHEN status = '已租' THEN 1 ELSE 0 END) as rented
+    FROM properties`
+  ).first();
+  return c.json({ data: row });
+});
+
 // 管理端房源列表（含已售/已租）
 adminRoutes.get('/properties', async (c) => {
   const { keyword, page = '1', pageSize = '20' } = c.req.query();
