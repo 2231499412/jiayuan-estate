@@ -5,7 +5,7 @@ export const propertiesRoutes = new Hono<{ Bindings: Env }>();
 
 // 房源列表（支持筛选）
 propertiesRoutes.get('/properties', async (c) => {
-  const { type, area, status, keyword, priceRange, rooms, page = '1', pageSize = '12' } = c.req.query();
+  const { type, area, status, keyword, page = '1', pageSize = '12' } = c.req.query();
   const conditions: string[] = [];
   const params: string[] = [];
 
@@ -26,35 +26,6 @@ propertiesRoutes.get('/properties', async (c) => {
   if (keyword) {
     conditions.push('(title LIKE ? OR address LIKE ?)');
     params.push(`%${keyword}%`, `%${keyword}%`);
-  }
-  if (priceRange && priceRange !== '不限') {
-    // price field stores values like "120万" or "8500元/月"
-    // Extract numeric value for comparison: CAST(REPLACE(REPLACE(price, '万', ''), '元/月', '') AS INTEGER)
-    const priceExpr = "CAST(REPLACE(REPLACE(price, '万', ''), '元/月', '') AS INTEGER)";
-    if (priceRange === '50万以下') {
-      conditions.push(`${priceExpr} < 50`);
-    } else if (priceRange === '50-100万') {
-      conditions.push(`${priceExpr} >= 50 AND ${priceExpr} < 100`);
-    } else if (priceRange === '100-200万') {
-      conditions.push(`${priceExpr} >= 100 AND ${priceExpr} < 200`);
-    } else if (priceRange === '200-300万') {
-      conditions.push(`${priceExpr} >= 200 AND ${priceExpr} < 300`);
-    } else if (priceRange === '300万以上') {
-      conditions.push(`${priceExpr} >= 300`);
-    }
-  }
-  if (rooms && rooms !== '不限') {
-    // rooms field stores values like "3室2厅"
-    // Match by first digit
-    if (rooms === '一居') {
-      conditions.push("rooms LIKE '1室%'");
-    } else if (rooms === '两居') {
-      conditions.push("rooms LIKE '2室%'");
-    } else if (rooms === '三居') {
-      conditions.push("rooms LIKE '3室%'");
-    } else if (rooms === '四居及以上') {
-      conditions.push("CAST(SUBSTR(rooms, 1, 1) AS INTEGER) >= 4");
-    }
   }
 
   const where = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';

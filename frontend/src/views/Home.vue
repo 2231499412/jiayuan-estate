@@ -1,144 +1,115 @@
+<!-- frontend/src/views/Home.vue -->
 <template>
   <div class="home">
-    <!-- 顶部信息条 -->
-    <div class="top-bar">
-      <div class="container top-bar-inner">
-        <span>深圳龙岗房产信息网</span>
-        <div class="top-links">
-          <a href="tel:13603080608">📞 13603080608</a>
-          <router-link to="/admin/login">管理登录</router-link>
-        </div>
-      </div>
-    </div>
-
-    <!-- 主导航 -->
     <header class="header">
       <div class="container header-inner">
-        <router-link to="/" class="logo">
-          <span class="logo-icon">嘉</span>
-          <span class="logo-text">嘉原地产</span>
-        </router-link>
-        <nav class="main-nav">
-          <router-link to="/" class="active">首页</router-link>
-          <router-link to="/list?type=二手房">二手房</router-link>
-          <router-link to="/list?type=新房">新房</router-link>
-          <router-link to="/list?type=租房">租房</router-link>
+        <router-link to="/" class="logo">嘉原地产</router-link>
+        <nav>
+          <router-link to="/">首页</router-link>
+          <router-link to="/list">房源</router-link>
           <router-link to="/about">关于我们</router-link>
         </nav>
       </div>
     </header>
 
-    <!-- Hero 搜索区 -->
     <section class="hero">
-      <div class="container hero-content">
-        <h1>深圳龙岗房产信息</h1>
-        <p class="hero-sub">专注龙岗区 · 新房 · 二手房 · 租房</p>
-        <SearchBar :showTags="true" @search="goSearch" class="hero-search" />
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-badge">深耕本地 · 值得信赖</div>
+          <h1>找到理想的<em>家</em></h1>
+          <p class="hero-desc">嘉原地产，为您精选优质二手房、新房和租房房源。专业团队一对一服务，让每一次选择都安心。</p>
+          <SearchBar class="hero-search" @search="goSearch" />
+          <div class="stats-bar">
+            <div class="stat-item">
+              <div class="stat-number">{{ hotList.length || 0 }}<span>套</span></div>
+              <div class="stat-label">推荐房源</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">{{ areas.length || 0 }}<span>个</span></div>
+              <div class="stat-label">覆盖区域</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">8</div>
+              <div class="stat-label">年行业经验</div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- 推荐房源 -->
     <section class="section container">
       <div class="section-header">
-        <h2 class="section-title">精选推荐</h2>
-        <router-link to="/list" class="section-more">查看更多 &gt;</router-link>
+        <h2 class="section-title">推荐房源</h2>
+        <router-link to="/list" class="section-more">查看全部 →</router-link>
       </div>
-      <div v-if="hotList.length" class="hot-grid">
+      <div v-if="hotList.length" class="grid">
         <PropertyCard v-for="p in hotList" :key="p.id" :property="p" />
       </div>
-      <div v-else class="empty-hint">暂无推荐房源，请先在后台添加</div>
+      <div v-else class="empty-card">暂无推荐房源，请先在后台添加房源</div>
     </section>
 
-    <!-- 按区域找房 -->
     <section class="area-section">
       <div class="container">
         <div class="section-header">
-          <h2 class="section-title">龙岗区按区域找房</h2>
+          <h2 class="section-title">按区域找房</h2>
         </div>
-        <div class="area-grid">
-          <router-link v-for="a in longgangAreas" :key="a" :to="`/list?area=${a}`" class="area-card">
+        <div v-if="areas.length" class="area-grid">
+          <router-link v-for="a in areas" :key="a" :to="`/list?area=${a}`" class="area-item">
             <span class="area-name">{{ a }}</span>
+            <span class="area-count">查看房源</span>
           </router-link>
         </div>
+        <div v-else class="empty-card">暂无区域数据</div>
       </div>
     </section>
 
-    <!-- 房产类型入口 -->
-    <section class="section container">
-      <div class="section-header">
-        <h2 class="section-title">找房通道</h2>
-      </div>
-      <div class="type-cards">
-        <router-link to="/list?type=二手房" class="type-card">
-          <div class="type-icon" style="background: linear-gradient(135deg, #8B6F47, #C4A882);">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0h4"/></svg>
-          </div>
-          <h3>二手房</h3>
-          <p>海量真实二手房源</p>
-        </router-link>
-        <router-link to="/list?type=新房" class="type-card">
-          <div class="type-icon" style="background: linear-gradient(135deg, #5A8C6A, #7AB68A);">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-          </div>
-          <h3>新房</h3>
-          <p>龙岗新盘抢先看</p>
-        </router-link>
-        <router-link to="/list?type=租房" class="type-card">
-          <div class="type-icon" style="background: linear-gradient(135deg, #5A7FA8, #7A9FC8);">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          </div>
-          <h3>租房</h3>
-          <p>品质租房任你选</p>
-        </router-link>
-      </div>
-    </section>
-
-    <!-- 为什么选择嘉原 -->
-    <section class="features-section">
+    <section class="features">
       <div class="container">
         <div class="section-header">
-          <h2 class="section-title">为什么选择嘉原地产</h2>
+          <h2 class="section-title">为什么选择嘉原</h2>
         </div>
-        <div class="features-grid">
-          <div class="feature-item">
-            <div class="feat-icon">实</div>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div class="feature-icon">实</div>
             <h3>真房源</h3>
-            <p>每套房源均经实地核查</p>
+            <p>每套房源均经过实地核查，确保信息真实可靠，杜绝虚假房源。</p>
           </div>
-          <div class="feature-item">
-            <div class="feat-icon">专</div>
+          <div class="feature-card">
+            <div class="feature-icon">专</div>
             <h3>一对一服务</h3>
-            <p>专属顾问全程陪同</p>
+            <p>专属顾问全程陪同，从看房到签约，每一步都有人为您把关。</p>
           </div>
-          <div class="feature-item">
-            <div class="feat-icon">明</div>
+          <div class="feature-card">
+            <div class="feature-icon">明</div>
             <h3>透明收费</h3>
-            <p>所有费用公开透明</p>
+            <p>所有费用公开透明，无隐藏收费，让您安心完成每一次交易。</p>
           </div>
-          <div class="feature-item">
-            <div class="feat-icon">熟</div>
-            <h3>深耕龙岗</h3>
-            <p>熟悉龙岗每个小区</p>
+          <div class="feature-card">
+            <div class="feature-icon">熟</div>
+            <h3>本地深耕</h3>
+            <p>熟悉本地每个小区的优劣，帮您做出更合适的选择。</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Footer -->
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-card">
+          <h2>找到心仪的房源了吗？</h2>
+          <p>联系我们，专业顾问为您一对一服务</p>
+          <router-link to="/about" class="cta-btn">立即咨询</router-link>
+        </div>
+      </div>
+    </section>
+
     <footer class="footer">
       <div class="container footer-inner">
-        <div class="footer-brand">
+        <div>
           <strong>嘉原地产</strong>
-          <p>专注深圳龙岗区房产服务</p>
-          <p>电话：13603080608</p>
+          <p>专业、诚信、温暖，为您找到理想的家。</p>
         </div>
-        <div class="footer-links">
-          <router-link to="/list?type=二手房">二手房</router-link>
-          <router-link to="/list?type=新房">新房</router-link>
-          <router-link to="/list?type=租房">租房</router-link>
-          <router-link to="/about">关于我们</router-link>
-        </div>
-        <span class="footer-copy">© 2026 嘉原地产 版权所有</span>
+        <span>© 2026 嘉原地产 版权所有</span>
       </div>
     </footer>
   </div>
@@ -154,398 +125,373 @@ import PropertyCard from '../components/PropertyCard.vue';
 
 const router = useRouter();
 const hotList = ref<Property[]>([]);
-const longgangAreas = [
-  '龙岗中心城', '布吉', '坂田', '横岗', '龙城',
-  '坪地', '南湾', '吉华', '园山', '宝龙',
-];
+const areas = ref<string[]>([]);
 
 onMounted(async () => {
-  try {
-    const res = await api.get('/properties/hot');
-    hotList.value = res.data.data;
-  } catch {}
+  const [hotRes, areasRes] = await Promise.all([
+    api.get('/properties/hot'),
+    api.get('/areas'),
+  ]);
+  hotList.value = hotRes.data.data;
+  areas.value = areasRes.data.data;
 });
 
-function goSearch(keyword: string, type: string) {
-  const query: any = {};
-  if (keyword) query.keyword = keyword;
-  if (type) query.type = type;
-  router.push({ path: '/list', query });
+function goSearch(keyword: string) {
+  router.push({ path: '/list', query: keyword ? { keyword } : {} });
 }
 </script>
 
 <style scoped>
-/* Top bar */
-.top-bar {
-  background: #2D2118;
-  color: rgba(255,255,255,0.6);
-  font-size: 13px;
-  padding: 6px 0;
-}
-.top-bar-inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.top-links {
-  display: flex;
-  gap: 20px;
-}
-.top-links a {
-  color: rgba(255,255,255,0.6);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-.top-links a:hover {
-  color: #fff;
-}
-
-/* Header */
-.header {
-  background: #fff;
-  border-bottom: 2px solid var(--color-accent);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 8px rgba(45,33,24,0.06);
-}
-.header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 24px;
-  height: 64px;
-}
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  text-decoration: none;
-}
-.logo-icon {
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #8B6F47, #C4A882);
-  color: #fff;
-  border-radius: 10px;
-  font-family: var(--font-serif);
-  font-size: 18px;
-  font-weight: 700;
-}
-.logo-text {
-  font-family: var(--font-serif);
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--color-text);
-  letter-spacing: 2px;
-}
-.main-nav {
-  display: flex;
-  gap: 4px;
-}
-.main-nav a {
-  padding: 8px 18px;
-  border-radius: 8px;
-  color: var(--color-text-secondary);
-  font-size: 15px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: all 0.25s;
-}
-.main-nav a:hover {
-  color: var(--color-accent);
-  background: rgba(139,111,71,0.06);
-}
-.main-nav a.active,
-.main-nav a.router-link-exact-active {
-  color: #fff;
-  background: var(--color-accent);
-}
-
-/* Hero */
 .hero {
-  background: linear-gradient(135deg, #3A2E22 0%, #2D2118 50%, #3A2E22 100%);
-  padding: 56px 0 64px;
   position: relative;
+  padding: 80px 0 100px;
   overflow: hidden;
 }
 .hero::before {
   content: '';
   position: absolute;
-  top: -30%;
-  right: -10%;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(196,168,130,0.08) 0%, transparent 70%);
+  top: -50%;
+  right: -20%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(196, 168, 130, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: -10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(139, 111, 71, 0.08) 0%, transparent 70%);
   border-radius: 50%;
 }
 .hero-content {
   position: relative;
-  text-align: center;
+  z-index: 1;
+  max-width: 680px;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  margin-bottom: 24px;
+  background: rgba(139, 111, 71, 0.08);
+  border: 1px solid rgba(139, 111, 71, 0.12);
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-accent);
+}
+.hero-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--color-accent);
+  border-radius: 50%;
 }
 .hero h1 {
-  color: #fff;
+  margin-bottom: 16px;
   font-family: var(--font-serif);
-  font-size: clamp(28px, 4vw, 40px);
-  margin-bottom: 8px;
+  font-size: clamp(34px, 5vw, 52px);
+  font-weight: 700;
+  line-height: 1.25;
 }
-.hero-sub {
-  color: rgba(196,168,130,0.7);
-  font-size: 16px;
+.hero h1 em {
+  position: relative;
+  z-index: 1;
+  color: var(--color-accent);
+  font-style: normal;
+}
+.hero h1 em::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 8px;
+  background: rgba(196, 168, 130, 0.3);
+  border-radius: 4px;
+}
+.hero-desc {
+  max-width: 520px;
   margin-bottom: 32px;
+  color: var(--color-text-secondary);
+  font-size: 17px;
+  line-height: 1.8;
 }
 .hero-search {
-  max-width: 680px;
-  margin: 0 auto;
+  max-width: 560px;
 }
-
-/* Sections */
+.stats-bar {
+  display: flex;
+  gap: 40px;
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid var(--color-border-light);
+}
+.stat-number {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-accent);
+  line-height: 1.2;
+}
+.stat-number span {
+  margin-left: 2px;
+  color: var(--color-text-secondary);
+  font-size: 16px;
+  font-weight: 400;
+}
+.stat-label {
+  margin-top: 4px;
+  color: var(--color-text-light);
+  font-size: 13px;
+}
 .section {
-  padding: 48px 24px;
+  padding: 64px 24px;
 }
 .section-header {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
-  margin-bottom: 24px;
-}
-.section-title {
-  font-family: var(--font-serif);
-  font-size: 24px;
-  color: var(--color-text);
-  position: relative;
-  padding-left: 14px;
-}
-.section-title::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 4px;
-  bottom: 4px;
-  width: 4px;
-  background: linear-gradient(180deg, var(--color-accent), var(--color-orange));
-  border-radius: 2px;
+  margin-bottom: 32px;
 }
 .section-more {
   color: var(--color-accent);
   font-size: 14px;
-  font-weight: 500;
-  text-decoration: none;
+  font-weight: 600;
+  transition: var(--transition);
 }
 .section-more:hover {
-  color: var(--color-accent-dark);
+  transform: translateX(4px);
 }
-
-.hot-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
 }
-.empty-hint {
-  padding: 40px;
-  text-align: center;
-  color: var(--color-text-light);
-  background: var(--bg-card);
-  border-radius: 14px;
-  border: 1px dashed var(--color-border);
-}
-
-/* Area section */
-.area-section {
-  padding: 48px 0;
+.area-section,
+.features {
+  padding: 64px 0;
   background: var(--bg-cream);
 }
 .area-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 14px;
 }
-.area-card {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px 16px;
+.area-item {
+  position: relative;
+  padding: 24px 20px;
   background: var(--bg-card);
   border: 1px solid var(--color-border-light);
-  border-radius: 12px;
-  text-decoration: none;
-  transition: all 0.25s;
+  border-radius: var(--radius);
+  text-align: center;
+  transition: var(--transition);
+  overflow: hidden;
 }
-.area-card:hover {
-  border-color: var(--color-accent);
-  transform: translateY(-2px);
+.area-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  opacity: 0;
+  transition: var(--transition);
+}
+.area-item:hover {
+  transform: translateY(-4px);
   box-shadow: var(--shadow);
+  border-color: var(--color-primary);
+}
+.area-item:hover::before {
+  opacity: 1;
+}
+.area-name,
+.area-count {
+  display: block;
 }
 .area-name {
+  margin-bottom: 4px;
   color: var(--color-text);
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 700;
 }
-
-/* Type cards */
-.type-cards {
+.area-count {
+  color: var(--color-text-light);
+  font-size: 13px;
+}
+.feature-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
 }
-.type-card {
+.feature-card {
   padding: 32px 24px;
   background: var(--bg-card);
   border: 1px solid var(--color-border-light);
-  border-radius: 16px;
-  text-align: center;
-  text-decoration: none;
-  transition: all 0.3s;
+  border-radius: var(--radius);
+  transition: var(--transition);
 }
-.type-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
+.feature-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
 }
-.type-icon {
-  width: 56px;
-  height: 56px;
-  margin: 0 auto 16px;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.type-icon svg {
-  width: 28px;
-  height: 28px;
-}
-.type-card h3 {
-  color: var(--color-text);
-  font-size: 18px;
-  margin-bottom: 6px;
-}
-.type-card p {
-  color: var(--color-text-light);
-  font-size: 14px;
-}
-
-/* Features */
-.features-section {
-  padding: 48px 0;
-  background: var(--bg-cream);
-}
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-}
-.feature-item {
-  text-align: center;
-  padding: 28px 20px;
-  background: var(--bg-card);
-  border-radius: 14px;
-  border: 1px solid var(--color-border-light);
-}
-.feat-icon {
+.feature-icon {
   width: 48px;
   height: 48px;
-  margin: 0 auto 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(139,111,71,0.1), rgba(196,168,130,0.15));
+  margin-bottom: 18px;
+  background: linear-gradient(135deg, rgba(139, 111, 71, 0.1) 0%, rgba(196, 168, 130, 0.15) 100%);
   border-radius: 14px;
-  font-family: var(--font-serif);
-  font-size: 22px;
-  font-weight: 700;
   color: var(--color-accent);
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 700;
 }
-.feature-item h3 {
-  font-size: 16px;
-  margin-bottom: 6px;
+.feature-card h3 {
+  margin-bottom: 8px;
+  font-size: 17px;
 }
-.feature-item p {
-  font-size: 13px;
+.feature-card p {
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  line-height: 1.7;
+}
+.cta-section {
+  padding: 80px 0;
+}
+.cta-card {
+  position: relative;
+  padding: 56px 40px;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-dark) 100%);
+  color: #fff;
+  text-align: center;
+}
+.cta-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.cta-card h2,
+.cta-card p,
+.cta-btn {
+  position: relative;
+}
+.cta-card h2 {
+  margin-bottom: 12px;
+  font-family: var(--font-serif);
+  font-size: 28px;
+}
+.cta-card p {
+  margin-bottom: 28px;
+  opacity: 0.85;
+}
+.cta-btn {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  padding: 0 36px;
+  background: #fff;
+  border-radius: var(--radius);
+  color: var(--color-accent-dark);
+  font-weight: 700;
+  transition: var(--transition);
+}
+.cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+.empty-card {
+  padding: 40px 24px;
+  background: var(--bg-card);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius);
   color: var(--color-text-light);
+  text-align: center;
 }
-
-/* Footer */
 .footer {
-  padding: 40px 0 28px;
-  background: #2D2118;
-  color: rgba(255,255,255,0.5);
+  padding: 42px 0 32px;
+  background: var(--color-text);
+  color: rgba(255, 255, 255, 0.6);
 }
 .footer-inner {
   display: flex;
-  align-items: flex-start;
+  align-items: flex-end;
   justify-content: space-between;
   gap: 24px;
 }
-.footer-brand strong {
+.footer strong {
   display: block;
+  margin-bottom: 8px;
   color: var(--color-primary);
   font-family: var(--font-serif);
-  font-size: 18px;
-  margin-bottom: 8px;
+  font-size: 20px;
 }
-.footer-brand p {
+.footer p,
+.footer span {
   font-size: 13px;
-  margin-bottom: 4px;
 }
-.footer-links {
-  display: flex;
-  gap: 24px;
-}
-.footer-links a {
-  color: rgba(255,255,255,0.5);
-  font-size: 14px;
-  text-decoration: none;
-}
-.footer-links a:hover {
-  color: #fff;
-}
-.footer-copy {
-  font-size: 12px;
-  color: rgba(255,255,255,0.3);
-}
-
 @media (max-width: 768px) {
-  .header-inner {
-    padding: 0 16px;
-  }
-  .main-nav {
-    gap: 0;
-  }
-  .main-nav a {
-    padding: 8px 10px;
-    font-size: 14px;
-  }
   .hero {
-    padding: 40px 0 48px;
+    padding: 48px 0 64px;
+  }
+  .hero-desc {
+    font-size: 15px;
+  }
+  .stats-bar {
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .section,
+  .area-section,
+  .features {
+    padding: 40px 16px;
+  }
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
   }
   .area-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
   }
-  .type-cards {
-    grid-template-columns: 1fr;
+  .area-item {
+    padding: 18px 14px;
   }
-  .features-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .cta-card {
+    padding: 40px 24px;
+  }
+  .cta-card h2 {
+    font-size: 22px;
   }
   .footer-inner {
     flex-direction: column;
+    align-items: flex-start;
   }
 }
 @media (max-width: 480px) {
-  .top-bar span:first-child {
-    display: none;
-  }
-  .logo-text {
-    font-size: 17px;
-  }
-  .area-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .features-grid {
+  .grid {
     grid-template-columns: 1fr;
+  }
+  .stat-item {
+    min-width: 80px;
+    flex: 1;
   }
 }
 </style>

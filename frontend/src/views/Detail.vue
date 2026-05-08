@@ -1,34 +1,19 @@
+<!-- frontend/src/views/Detail.vue -->
 <template>
   <div class="detail-page">
-    <!-- 顶部信息条 -->
-    <div class="top-bar">
-      <div class="container top-bar-inner">
-        <span>深圳龙岗房产信息网</span>
-        <div class="top-links">
-          <a href="tel:13603080608">📞 13603080608</a>
-          <router-link to="/admin/login">管理登录</router-link>
-        </div>
-      </div>
-    </div>
-
     <header class="header">
       <div class="container header-inner">
-        <router-link to="/" class="logo">
-          <span class="logo-icon">嘉</span>
-          <span class="logo-text">嘉原地产</span>
-        </router-link>
-        <nav class="main-nav">
+        <router-link to="/" class="logo">嘉原地产</router-link>
+        <nav>
           <router-link to="/">首页</router-link>
-          <router-link to="/list?type=二手房">二手房</router-link>
-          <router-link to="/list?type=新房">新房</router-link>
-          <router-link to="/list?type=租房">租房</router-link>
+          <router-link to="/list">房源</router-link>
           <router-link to="/about">关于我们</router-link>
         </nav>
       </div>
     </header>
 
     <div class="container content" v-if="property">
-      <router-link to="/list" class="back-link">&lt; 返回房源列表</router-link>
+      <router-link to="/list" class="back-link">← 返回房源列表</router-link>
       <ImageCarousel :images="imageUrls" />
 
       <div class="info-card card">
@@ -71,9 +56,9 @@
       <div class="contact-card">
         <div>
           <h3>对这套房源感兴趣？</h3>
-          <p>拨打 13603080608 了解看房时间、房源细节和交易流程</p>
+          <p>联系我们了解看房时间、房源细节和交易流程。</p>
         </div>
-        <a href="tel:13603080608" class="contact-btn">立即咨询</a>
+        <router-link to="/about" class="contact-btn">立即咨询</router-link>
       </div>
     </div>
 
@@ -103,86 +88,6 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.top-bar {
-  background: #2D2118;
-  color: rgba(255,255,255,0.6);
-  font-size: 13px;
-  padding: 6px 0;
-}
-.top-bar-inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.top-links {
-  display: flex;
-  gap: 20px;
-}
-.top-links a {
-  color: rgba(255,255,255,0.6);
-  text-decoration: none;
-}
-.top-links a:hover { color: #fff; }
-
-.header {
-  background: #fff;
-  border-bottom: 2px solid var(--color-accent);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 8px rgba(45,33,24,0.06);
-}
-.header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 24px;
-  height: 64px;
-}
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  text-decoration: none;
-}
-.logo-icon {
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #8B6F47, #C4A882);
-  color: #fff;
-  border-radius: 10px;
-  font-family: var(--font-serif);
-  font-size: 18px;
-  font-weight: 700;
-}
-.logo-text {
-  font-family: var(--font-serif);
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--color-text);
-  letter-spacing: 2px;
-}
-.main-nav {
-  display: flex;
-  gap: 4px;
-}
-.main-nav a {
-  padding: 8px 18px;
-  border-radius: 8px;
-  color: var(--color-text-secondary);
-  font-size: 15px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: all 0.25s;
-}
-.main-nav a:hover {
-  color: var(--color-accent);
-  background: rgba(139,111,71,0.06);
-}
-
 .content {
   display: flex;
   flex-direction: column;
@@ -195,7 +100,6 @@ onMounted(async () => {
   color: var(--color-accent);
   font-size: 14px;
   font-weight: 700;
-  text-decoration: none;
 }
 .info-card {
   padding: 28px;
@@ -214,10 +118,10 @@ onMounted(async () => {
 }
 .status-tag {
   padding: 4px 12px;
-  border-radius: 8px;
+  border-radius: 100px;
   color: #fff;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
 }
 .status-tag.在售 { background: var(--color-green); }
 .status-tag.已售 { background: var(--color-text-light); }
@@ -276,6 +180,7 @@ onMounted(async () => {
   justify-content: space-between;
   gap: 24px;
   padding: 34px;
+  overflow: hidden;
   background: linear-gradient(135deg, var(--color-accent), var(--color-accent-dark));
   border-radius: var(--radius-xl);
   color: #fff;
@@ -298,7 +203,6 @@ onMounted(async () => {
   border-radius: var(--radius);
   color: var(--color-accent-dark);
   font-weight: 800;
-  text-decoration: none;
   transition: var(--transition);
 }
 .contact-btn:hover {
@@ -315,7 +219,8 @@ onMounted(async () => {
     padding-top: 18px;
     padding-bottom: 40px;
   }
-  .info-card, .desc-card {
+  .info-card,
+  .desc-card {
     padding: 22px;
   }
   .meta-grid {

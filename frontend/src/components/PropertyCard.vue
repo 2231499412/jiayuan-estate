@@ -1,3 +1,4 @@
+<!-- frontend/src/components/PropertyCard.vue -->
 <template>
   <router-link :to="`/detail/${property.id}`" class="property-card">
     <div class="card-image">
@@ -8,24 +9,22 @@
           <circle cx="8.5" cy="8.5" r="1.5" />
           <path d="m21 15-5-5L5 21" />
         </svg>
+        <span>暂无图片</span>
       </div>
       <span class="badge" :class="badgeClass">{{ property.type }}</span>
-      <span v-if="property.hot" class="hot-mark">荐</span>
+      <span v-if="property.hot" class="hot-mark">热</span>
     </div>
     <div class="card-body">
       <h3 class="title">{{ property.title }}</h3>
-      <div class="meta">
+      <p class="info">
         <span v-if="property.rooms">{{ property.rooms }}</span>
         <span v-if="property.area_sqm">{{ property.area_sqm }}</span>
         <span v-if="property.floor">{{ property.floor }}</span>
-      </div>
-      <div class="location">
-        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a5 5 0 00-5 5c0 3.5 5 9 5 9s5-5.5 5-9a5 5 0 00-5-5zm0 7a2 2 0 110-4 2 2 0 010 4z"/></svg>
-        <span>{{ property.area }} · {{ property.address }}</span>
-      </div>
+      </p>
+      <p class="location">{{ property.area }} {{ property.address }}</p>
       <div class="card-bottom">
         <p class="price">{{ property.price }}</p>
-        <span class="status-tag" :class="statusClass">{{ property.status }}</span>
+        <span class="action">查看详情</span>
       </div>
     </div>
   </router-link>
@@ -47,35 +46,26 @@ const badgeClass = computed(() => ({
   sale: props.property.type === '二手房',
   rent: props.property.type === '租房',
 }));
-
-const statusClass = computed(() => ({
-  selling: props.property.status === '在售',
-  sold: props.property.status === '已售',
-  rented: props.property.status === '已租',
-}));
 </script>
 
 <style scoped>
 .property-card {
-  display: flex;
+  display: block;
   overflow: hidden;
   background: var(--bg-card);
   border: 1px solid var(--color-border-light);
-  border-radius: 14px;
+  border-radius: var(--radius);
   box-shadow: var(--shadow-sm);
-  transition: all 0.3s;
+  transition: var(--transition);
 }
 .property-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-6px);
   box-shadow: var(--shadow-hover);
   border-color: var(--color-primary-light);
 }
-
 .card-image {
   position: relative;
-  width: 240px;
-  height: 180px;
-  flex-shrink: 0;
+  height: 200px;
   overflow: hidden;
   background: var(--bg-cream);
 }
@@ -86,104 +76,94 @@ const statusClass = computed(() => ({
   transition: transform 0.5s ease;
 }
 .property-card:hover .card-image img {
-  transform: scale(1.05);
+  transform: scale(1.04);
 }
 .placeholder {
   display: flex;
   height: 100%;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   color: var(--color-text-light);
 }
 .placeholder svg {
-  width: 40px;
-  height: 40px;
-  opacity: 0.35;
+  width: 42px;
+  height: 42px;
+  opacity: 0.45;
 }
-
+.placeholder span {
+  font-size: 13px;
+}
 .badge {
   position: absolute;
-  top: 10px;
-  left: 10px;
-  padding: 3px 10px;
-  border-radius: 6px;
+  top: 12px;
+  left: 12px;
+  padding: 4px 12px;
+  border-radius: 100px;
   color: #fff;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   backdrop-filter: blur(8px);
 }
-.badge.new { background: rgba(90, 140, 106, 0.9); }
-.badge.sale { background: rgba(139, 111, 71, 0.9); }
-.badge.rent { background: rgba(90, 127, 168, 0.9); }
-
+.badge.new { background: rgba(90, 140, 106, 0.92); }
+.badge.sale { background: rgba(139, 111, 71, 0.92); }
+.badge.rent { background: rgba(90, 127, 168, 0.92); }
 .hot-mark {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 26px;
-  height: 26px;
+  top: 12px;
+  right: 12px;
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: rgba(212, 118, 78, 0.92);
-  border-radius: 6px;
+  border-radius: 50%;
   color: #fff;
   font-size: 12px;
   font-weight: 700;
 }
-
 .card-body {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  padding: 16px 20px;
+  padding: 16px 18px 20px;
 }
-
 .title {
   display: -webkit-box;
+  min-height: 45px;
   margin-bottom: 8px;
   overflow: hidden;
   color: var(--color-text);
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 700;
   line-height: 1.4;
-  -webkit-line-clamp: 1;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
-
-.meta {
+.info {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 10px;
-}
-.meta span {
-  padding: 3px 10px;
-  background: var(--bg-cream);
-  border-radius: 6px;
+  gap: 10px;
+  margin-bottom: 8px;
   color: var(--color-text-secondary);
   font-size: 13px;
 }
-
+.info span + span::before {
+  content: '·';
+  margin-right: 10px;
+  color: var(--color-text-light);
+}
 .location {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  margin-bottom: auto;
+  margin-bottom: 12px;
   color: var(--color-text-light);
   font-size: 13px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.location svg {
-  width: 13px;
-  height: 13px;
-  flex-shrink: 0;
-  opacity: 0.6;
+.location::before {
+  content: '⌖';
+  margin-right: 4px;
 }
-
 .card-bottom {
   display: flex;
   align-items: flex-end;
@@ -191,7 +171,6 @@ const statusClass = computed(() => ({
   gap: 12px;
   padding-top: 12px;
   border-top: 1px solid var(--color-border-light);
-  margin-top: 12px;
 }
 .price {
   color: var(--color-orange);
@@ -199,43 +178,22 @@ const statusClass = computed(() => ({
   font-weight: 800;
   line-height: 1;
 }
-.price::before {
-  content: '';
-}
-
-.status-tag {
-  padding: 4px 12px;
-  border-radius: 6px;
-  font-size: 12px;
+.action {
+  flex-shrink: 0;
+  padding: 6px 14px;
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  color: var(--color-accent);
+  font-size: 13px;
   font-weight: 600;
+  transition: var(--transition);
 }
-.status-tag.selling {
-  background: rgba(90, 140, 106, 0.1);
-  color: #5A8C6A;
+.property-card:hover .action {
+  background: var(--color-accent);
+  color: #fff;
+  border-color: var(--color-accent);
 }
-.status-tag.sold {
-  background: rgba(220, 38, 38, 0.08);
-  color: #DC2626;
-}
-.status-tag.rented {
-  background: rgba(90, 127, 168, 0.1);
-  color: #5A7FA8;
-}
-
 @media (max-width: 768px) {
-  .property-card {
-    flex-direction: column;
-  }
-  .card-image {
-    width: 100%;
-    height: 200px;
-  }
-  .card-body {
-    padding: 14px 16px;
-  }
-}
-
-@media (max-width: 480px) {
   .card-image {
     height: 170px;
   }
