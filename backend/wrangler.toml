@@ -12,4 +12,3 @@ binding = "IMAGES"
 bucket_name = "jiayuan-images"
 
 [vars]
-JWT_SECRET = "jiayuan-estate-jwt-secret-2026"
