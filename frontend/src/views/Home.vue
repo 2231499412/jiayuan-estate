@@ -13,6 +13,13 @@
       </div>
     </header>
 
+    <div class="contact-bar">
+      <div class="container contact-bar-inner">
+        <span>联系吴女士，专业顾问为您服务</span>
+        <a href="tel:13603080608" class="contact-bar-phone">📞 13603080608</a>
+      </div>
+    </div>
+
     <section class="hero">
       <div class="container">
         <div class="hero-content">
@@ -150,6 +157,36 @@ function goSearch(keyword: string, type: string) {
 </script>
 
 <style scoped>
+.contact-bar {
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-dark) 100%);
+  color: #fff;
+  padding: 10px 0;
+}
+.contact-bar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 14px;
+}
+.contact-bar-phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 18px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 100px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  white-space: nowrap;
+  transition: var(--transition);
+  text-decoration: none;
+}
+.contact-bar-phone:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
 .hero {
   position: relative;
   padding: 80px 0 100px;

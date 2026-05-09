@@ -269,16 +269,12 @@ nav a.router-link-exact-active::after {
   }
 
   .header-phone {
-    font-size: 13px;
-    padding: 6px 12px;
+    display: none;
   }
 }
 
 @media (max-width: 480px) {
-  .header-phone {
-    font-size: 12px;
-    padding: 5px 10px;
-  }
+
 }
 
 @media (max-width: 420px) {
