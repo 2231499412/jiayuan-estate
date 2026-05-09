@@ -9,6 +9,7 @@
           <router-link to="/list">房源</router-link>
           <router-link to="/about">关于我们</router-link>
         </nav>
+        <a href="tel:13603080608" class="header-phone">吴女士 13603080608</a>
       </div>
     </header>
 
