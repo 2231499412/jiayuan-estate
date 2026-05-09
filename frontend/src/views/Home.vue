@@ -97,8 +97,11 @@
       <div class="container">
         <div class="cta-card">
           <h2>找到心仪的房源了吗？</h2>
-          <p>联系我们，专业顾问为您一对一服务</p>
-          <router-link to="/about" class="cta-btn">立即咨询</router-link>
+          <p>联系吴女士，专业顾问为您一对一服务</p>
+          <div class="cta-actions">
+            <a href="tel:13603080608" class="cta-btn">📞 13603080608</a>
+            <router-link to="/about" class="cta-btn cta-btn-outline">了解更多</router-link>
+          </div>
         </div>
       </div>
     </section>
@@ -108,6 +111,7 @@
         <div>
           <strong>嘉原地产</strong>
           <p>专业、诚信、温暖，为您找到理想的家。</p>
+          <p>联系人：吴女士 · <a href="tel:13603080608">13603080608</a></p>
         </div>
         <span>© 2026 嘉原地产 版权所有</span>
       </div>
@@ -414,11 +418,33 @@ function goSearch(keyword: string, type: string) {
   border-radius: var(--radius);
   color: var(--color-accent-dark);
   font-weight: 700;
+  text-decoration: none;
   transition: var(--transition);
 }
 .cta-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+.cta-actions {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.cta-btn-outline {
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  color: #fff;
+}
+.cta-btn-outline:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #fff;
+}
+.footer a {
+  color: var(--color-primary);
+}
+.footer a:hover {
+  text-decoration: underline;
 }
 .empty-card {
   padding: 40px 24px;
